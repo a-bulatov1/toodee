@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://iojkq5lfincf"]
+
+[node name="World" type="Node3D" unique_id=1509253685]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=870657988]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
