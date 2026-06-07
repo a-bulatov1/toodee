@@ -1,6 +1,28 @@
 [gd_scene format=3 uid="uid://iojkq5lfincf"]
 
+[ext_resource type="Script" uid="uid://d0qh1cykubovh" path="res://scenes/level.gd" id="1_nnsk1"]
+[ext_resource type="Script" uid="uid://cypnhpq8kecgn" path="res://scenes/tempcharacter.gd" id="2_rwgxs"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nnsk1"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_nnsk1"]
+
 [node name="World" type="Node3D" unique_id=1509253685]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=870657988]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1326080060]
+transform = Transform3D(0.70710677, -0.35355338, 0.6123724, 0, 0.8660254, 0.5, -0.70710677, -0.35355338, 0.6123724, 10, 10, 10)
+projection = 1
+size = 15.019
+
+[node name="Level" type="Node3D" parent="." unique_id=554408694]
+script = ExtResource("1_nnsk1")
+
+[node name="tempcharacter" type="CharacterBody3D" parent="." unique_id=2061176035]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 5, 0)
+script = ExtResource("2_rwgxs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="tempcharacter" unique_id=784594384]
+shape = SubResource("CapsuleShape3D_nnsk1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="tempcharacter" unique_id=247023327]
+mesh = SubResource("CapsuleMesh_nnsk1")

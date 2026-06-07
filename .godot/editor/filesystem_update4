@@ -1,1 +1,4 @@
 res://scenes/world.tscn
+res://scenes/level.gd
+res://README.md
+res://scenes/wall_block.tscn
