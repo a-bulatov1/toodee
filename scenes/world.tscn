@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://iojkq5lfincf"]
 
 [ext_resource type="Script" uid="uid://d0qh1cykubovh" path="res://scenes/level.gd" id="1_nnsk1"]
-[ext_resource type="Shader" uid="uid://dtkn6exqjs1wj" path="res://scenes/PlaneShader.tres" id="2_k0juu"]
 [ext_resource type="Script" uid="uid://cypnhpq8kecgn" path="res://scenes/tempcharacter.gd" id="2_rwgxs"]
 [ext_resource type="Script" uid="uid://d4afksyb5gvfm" path="res://scenes/camera_3d.gd" id="3_4wyf3"]
 [ext_resource type="Script" uid="uid://cy3nsijup5qn4" path="res://scenes/plane.gd" id="3_71j4m"]
+[ext_resource type="Shader" uid="uid://cr2kcjekda6wo" path="res://scenes/cut_off.gdshader" id="5_qfnet"]
+[ext_resource type="Script" uid="uid://dlgkq3qnflt4q" path="res://scenes/actual_mesh.gd" id="6_i7141"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_4wyf3"]
 
@@ -13,9 +14,10 @@ albedo_color = Color(1, 0.120000005, 0.120000005, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k0juu"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_71j4m"]
-render_priority = 0
-shader = ExtResource("2_k0juu")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qfnet"]
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0.6872149, 0.68721503, 0.6872149, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_4wyf3"]
 lightmap_size_hint = Vector2i(10, 10)
@@ -24,11 +26,13 @@ subdivide_depth = 32
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nnsk1"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k0juu"]
-transparency = 4
-cull_mode = 2
-depth_draw_mode = 1
-albedo_color = Color(0.14326066, 0.51820785, 0.99999994, 1)
+[sub_resource type="ImageTexture" id="ImageTexture_w7kh3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i7141"]
+render_priority = 0
+shader = ExtResource("5_qfnet")
+shader_parameter/_albedo = SubResource("ImageTexture_w7kh3")
+shader_parameter/cutplane = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_nnsk1"]
 
@@ -55,17 +59,15 @@ offset_bottom = 512.0
 handle_input_locally = false
 render_target_update_mode = 4
 
-[node name="Node3D" type="Node3D" parent="Level/SubViewportContainer/SubViewport" unique_id=1670784965]
+[node name="Plane" type="MeshInstance3D" parent="Level/SubViewportContainer/SubViewport" unique_id=1145014658]
+transform = Transform3D(10, 0, 0, 0, -4.371139e-08, -5, 0, 1, -2.1855695e-07, 0.14159703, 4.9871597, 0.0025014877)
+layers = 2
+material_override = SubResource("StandardMaterial3D_qfnet")
+mesh = SubResource("PlaneMesh_4wyf3")
 script = ExtResource("3_71j4m")
 
-[node name="Plane" type="MeshInstance3D" parent="Level/SubViewportContainer/SubViewport/Node3D" unique_id=1145014658]
-transform = Transform3D(10, 0, 0, 0, -4.371139e-08, -5, 0, 1, -2.1855695e-07, 0, 5, 0)
-layers = 2
-material_override = SubResource("ShaderMaterial_71j4m")
-mesh = SubResource("PlaneMesh_4wyf3")
-
-[node name="Camera3D" type="Camera3D" parent="Level/SubViewportContainer/SubViewport/Node3D" unique_id=1060501605]
-transform = Transform3D(1, 0, 0, 0, 1, -3.496912e-08, 0, 3.496912e-08, 1, 0, 5, 5)
+[node name="Camera3D" type="Camera3D" parent="Level/SubViewportContainer/SubViewport/Plane" unique_id=1060501605]
+transform = Transform3D(0.099999994, 0, 0, 0, -8.742269e-09, 1, 0, -0.19999999, -1.7484547e-09, -0.014159703, 4.9974985, -0.0025681257)
 projection = 1
 size = 8.476
 near = 0.001
@@ -84,8 +86,9 @@ script = ExtResource("2_rwgxs")
 shape = SubResource("CapsuleShape3D_nnsk1")
 
 [node name="ActualMesh" type="MeshInstance3D" parent="tempcharacter" unique_id=247023327]
-material_override = SubResource("StandardMaterial3D_k0juu")
+material_override = SubResource("ShaderMaterial_i7141")
 mesh = SubResource("CapsuleMesh_nnsk1")
+script = ExtResource("6_i7141")
 
 [node name="CamCenter" type="Node3D" parent="." unique_id=376936651]
 
